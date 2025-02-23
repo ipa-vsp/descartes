@@ -1,86 +1,31 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.8)
 project(descartes_planner)
 
-add_compile_options(-std=c++11)
-
-find_package(catkin REQUIRED COMPONENTS
-  cmake_modules
-  descartes_core
-  descartes_trajectory
-  pluginlib
-  roscpp
-)
-
-find_package(Boost REQUIRED)
-find_package(Eigen3 REQUIRED)
-
-# Let's try to use open-mp parallization if we can
-find_package(OpenMP)
-if (OPENMP_FOUND)
-  message(STATUS "Descartes will use OpenMP")
-  set(OpenMP_FLAGS ${OpenMP_CXX_FLAGS})
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Eigen 3.2 (Wily) only provides EIGEN3_INCLUDE_DIR, not EIGEN3_INCLUDE_DIRS
-if(NOT EIGEN3_INCLUDE_DIRS)
-  set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(moveit_core REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(moveit_planners REQUIRED)
+find_package(descartes_core REQUIRED)
+find_package(descartes_trajectory REQUIRED)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  # the following line skips the linter which checks for copyrights
+  # comment the line when a copyright and license is added to all source files
+  set(ament_cmake_copyright_FOUND TRUE)
+  # the following line skips cpplint (only works in a git repo)
+  # comment the line when this package is in a git repo and when
+  # a copyright and license is added to all source files
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
 endif()
 
-###################################
-## catkin specific configuration ##
-###################################
-catkin_package(
-  INCLUDE_DIRS
-    include
-  LIBRARIES
-    ${PROJECT_NAME}
-  CATKIN_DEPENDS
-    descartes_core
-    descartes_trajectory
-    roscpp
-  DEPENDS
-    Boost
-    EIGEN3
-)
-
-###########
-## Build ##
-###########
-include_directories(include
-                    ${catkin_INCLUDE_DIRS}
-                    ${Boost_INCLUDE_DIRS}
-                    ${EIGEN3_INCLUDE_DIRS}
-)
-
-## DescartesTrajectoryPt lib
-add_library(${PROJECT_NAME}
-            src/dense_planner.cpp
-            src/ladder_graph_dag_search.cpp
-            src/planning_graph.cpp
-            src/plugin_init.cpp
-            src/sparse_planner.cpp
-)
-
-target_link_libraries(${PROJECT_NAME}
-                      ${catkin_LIBRARIES}
-                      ${OpenMP_FLAGS}
-)
-
-target_compile_options(${PROJECT_NAME} PRIVATE ${OpenMP_FLAGS})
-
-add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
-
-#############
-## Install ##
-#############
-install(
-    TARGETS ${PROJECT_NAME}
-    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
-
-install(
-  FILES ${PROJECT_NAME}_plugins.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-
-install(
-    DIRECTORY include/${PROJECT_NAME}/
-    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+ament_package()

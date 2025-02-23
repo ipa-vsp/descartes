@@ -1,22 +1,28 @@
-<package>
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>descartes</name>
   <version>0.0.0</version>
-  <description>Descartes is a ROS-Industrial project for performing path-planning on under-defined Cartesian trajectories. More details regarding motivation can be found in <a class="https" href="https://github.com/ros-industrial/rep/blob/master/rep-I0003.rst">rep-I0003.rst</a>.</description>
-
+  <description>Descartes is a ROS-Industrial project for performing path-planning on under-defined Cartesian trajectories. More details regarding motivation can be found in https://github.com/ros-industrial/rep/blob/master/rep-I0003.rst </description>
+  <maintainer email="vishnu.pbhat93@gmail.com">Vishnuprasad Prachandabhbanu</maintainer>
   <maintainer email="sedwards@swri.org">Shaun Edwards</maintainer>
   <maintainer email="jorge.nicho@swri.org">Jorge Nicho</maintainer>
   <maintainer email="jonathan.meyer@swri.org">Jonathan Meyer</maintainer>
-  <license>Apache2.0</license>
-  <url type="website">http://wiki.ros.org/descartes_moveit</url>
   <author email="ratneshmadaan@gmail.com">Ratnesh Madaan</author>
+  <license>Apache-2.0</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>descartes_core</run_depend>
-  <run_depend>descartes_moveit</run_depend>
-  <run_depend>descartes_planner</run_depend>
-  <run_depend>descartes_trajectory</run_depend>
-  <run_depend>descartes_utilities</run_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>descartes_core</depend>
+  <depend>descartes_moveit</depend>
+  <depend>descartes_planner</depend>
+  <depend>descartes_trajectory</depend>
+  <depend>descartes_utilities</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
   <export>
-    <metapackage/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

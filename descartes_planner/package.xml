@@ -1,35 +1,32 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>descartes_planner</name>
-  <version>0.0.1</version>
-  <description>The descartes_planner package</description>
-
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="vishnu.pbhat93@gmail.com">Vishnuprasad Prachandabhbanu</maintainer>
   <maintainer email="jnicho@swri.org">Jorge Nicho</maintainer>
   <maintainer email="jonathan.meyer@swri.org">Jonathan Meyer</maintainer>
   <maintainer email="sedwards@swri.org">Shaun Edwards</maintainer>
 
-  <license>Apache2.0</license>
-
   <author email="jnicho@swri.org">Jorge Nicho</author>
+  <license>Apache-2.0</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>descartes_core</build_depend>
-  <build_depend>descartes_trajectory</build_depend>
-  <build_depend>boost</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>pluginlib</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>eigen</build_depend>
+  <depend>rclcpp</depend>
+  <depend>moveit_core</depend>
+  <depend>tf2_eigen</depend>
+  <depend>tf2</depend>
+  <depend>moveit_ros_planning</depend>
+  <depend>moveit_planners</depend>
+  <depend>descartes_core</depend>
+  <depend>descartes_trajectory</depend>
 
-  <run_depend>descartes_core</run_depend>
-  <run_depend>descartes_trajectory</run_depend>
-  <run_depend>boost</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>pluginlib</run_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <descartes_core plugin="${prefix}/descartes_planner_plugins.xml"/>
-    <rosdoc config="rosdoc.yaml"/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

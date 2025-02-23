@@ -1,25 +1,27 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>descartes_utilities</name>
-  <version>0.0.1</version>
-  <description>
-    This package contains helper routines for working with the Descartes motion planning library
-    that ease practical use, but do fit cleanly into the core library. This includes conversions
-    to ROS trajectories, and similar operations.
-  </description>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="vishnu.pbhat93@gmail.com">Vishnuprasad Prachandabhbanu</maintainer>
+  <maintainer email="jnicho@swri.org">Jorge Nicho</maintainer>
+  <maintainer email="jonathan.meyer@swri.org">Jonathan Meyer</maintainer>
+  <maintainer email="sedwards@swri.org">Shaun Edwards</maintainer>
+  <author email="jnicho@swri.org">Jorge Nicho</author>
+  <license>Apache-2.0</license>
 
-  <maintainer email="Jmeyer@swri.org">Jonathan Meyer</maintainer>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <license>Apache 2.0</license>
+  <depend>rclcpp</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>descartes_core</depend>
+  <depend>descartes_trajectory</depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  
-  <build_depend>descartes_core</build_depend>
-  <build_depend>descartes_trajectory</build_depend>
-  <build_depend>trajectory_msgs</build_depend>
-  
-  <run_depend>descartes_core</run_depend>
-  <run_depend>descartes_trajectory</run_depend>
-  <run_depend>trajectory_msgs</run_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

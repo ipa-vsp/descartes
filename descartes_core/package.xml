@@ -1,33 +1,30 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>descartes_core</name>
-  <version>0.0.1</version>
+  <version>0.0.0</version>
   <description>The descartes_core package creates joint trajectories for trajectory plans. Trajectory plans are typically underdefined paths through space that allow for kinematic/dynamic tolerances, such as unspecified tool roll.</description>
-
+  <maintainer email="vishnu.pbhat93@gmail.com">Vishnuprasad Prachandabhbanu</maintainer>
   <maintainer email="jnicho@swri.org">Jorge Nicho</maintainer>
   <maintainer email="jonathan.meyer@swri.org">Jonathan Meyer</maintainer>
   <maintainer email="sedwards@swri.org">Shaun Edwards</maintainer>
-
-  <license>Apache2.0</license>
   <url type="website">https://github.com/industrial-moveit/descartes_core</url>
-
   <author email="dpsolomon@gmail.com">Dan Solomon</author>
+  <license>Apache-2.0</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>boost</build_depend>
-  <build_depend>moveit_core</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>eigen</build_depend>
+  <depend>rclcpp</depend>
+  <depend>boost</depend>
+  <depend>moveit_core</depend>
+  <depend>tf2_eigen</depend>
+  <depend>moveit_ros_planning</depend>
+  <depend>moveit_planners</depend>
 
-  <run_depend>boost</run_depend>
-  <run_depend>moveit_core</run_depend>
-  <run_depend>roscpp</run_depend>
-
-  <test_depend>rosunit</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <rosdoc config="rosdoc.yaml"/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
