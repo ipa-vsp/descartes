@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="3">
   <name>descartes_planner</name>
   <version>0.0.1</version>
   <description>The descartes_planner package</description>
@@ -12,21 +12,13 @@
 
   <author email="jnicho@swri.org">Jorge Nicho</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>descartes_core</build_depend>
-  <build_depend>descartes_trajectory</build_depend>
-  <build_depend>boost</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>pluginlib</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>eigen</build_depend>
-
-  <run_depend>descartes_core</run_depend>
-  <run_depend>descartes_trajectory</run_depend>
-  <run_depend>boost</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>pluginlib</run_depend>
+  <depend>descartes_core</depend>
+  <depend>descartes_trajectory</depend>
+  <depend>boost</depend>
+  <depend>pluginlib</depend>
+  <depend>eigen</depend>
 
   <export>
     <descartes_core plugin="${prefix}/descartes_planner_plugins.xml"/>
