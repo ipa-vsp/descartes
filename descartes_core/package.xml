@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="3">
   <name>descartes_core</name>
   <version>0.0.1</version>
   <description>The descartes_core package creates joint trajectories for trajectory plans. Trajectory plans are typically underdefined paths through space that allow for kinematic/dynamic tolerances, such as unspecified tool roll.</description>
@@ -13,21 +13,10 @@
 
   <author email="dpsolomon@gmail.com">Dan Solomon</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>boost</build_depend>
-  <build_depend>moveit_core</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>eigen</build_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <run_depend>boost</run_depend>
-  <run_depend>moveit_core</run_depend>
-  <run_depend>roscpp</run_depend>
+  <depend>boost</depend>
+  <depend>eigen</depend>
 
-  <test_depend>rosunit</test_depend>
-
-  <export>
-    <rosdoc config="rosdoc.yaml"/>
-  </export>
 </package>
