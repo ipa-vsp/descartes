@@ -23,9 +23,9 @@
 #include "descartes_moveit/seed_search.h"
 
 
-#include <eigen_conversions/eigen_msg.h>
+#include <tf2_eigen/tf2_eigen.hpp>
 #include <random_numbers/random_numbers.h>
-#include <ros/assert.h>
+#include <cassert>
 #include <sstream>
 
 const static int SAMPLE_ITERATIONS = 10;
@@ -46,8 +46,8 @@ bool getJointVelocityLimits(const moveit::core::RobotState& state, const std::st
     if (model->getType() != moveit::core::JointModel::REVOLUTE &&
         model->getType() != moveit::core::JointModel::PRISMATIC)
     {
-      ROS_ERROR_STREAM(__FUNCTION__ << " Unexpected joint type. Currently works only"
-                                       " with single axis prismatic or revolute joints.");
+      CONSOLE_BRIDGE_logError("%s: Unexpected joint type. Currently works only with single axis prismatic or revolute joints.",
+                              __FUNCTION__);
       return false;
     }
     else
@@ -164,7 +164,7 @@ bool MoveitStateAdapter::getIK(const Eigen::Isometry3d& pose, std::vector<double
     robot_state_->copyJointGroupPositions(group_name_, joint_pose);
     if (!isValid(joint_pose))
     {
-      ROS_DEBUG_STREAM("Robot joint pose is invalid");
+      CONSOLE_BRIDGE_logDebug("Robot joint pose is invalid");
     }
     else
     {
@@ -335,8 +335,7 @@ std::vector<double> MoveitStateAdapter::getJointVelocityLimits() const
 
 void MoveitStateAdapter::setState(const moveit::core::RobotState& state)
 {
-  ROS_ASSERT_MSG(static_cast<bool>(robot_state_), "'robot_state_' member pointer is null. Have you called "
-                                                  "initialize()?");
+  assert(static_cast<bool>(robot_state_) && "'robot_state_' member pointer is null. Have you called initialize()?");
   *robot_state_ = state;
   planning_scene_->setCurrentState(state);
 }

@@ -25,6 +25,7 @@
 #include "descartes_utilities/ros_conversions.h"
 #include <algorithm>
 #include <console_bridge/console.h>
+#include <builtin_interfaces/msg/duration.hpp>
 
 /**
  * @brief Given two sets of joint values representing two robot joint poses, this function computes the
@@ -50,7 +51,7 @@ static double minTime(const std::vector<double>& pose_a, const std::vector<doubl
 bool descartes_utilities::toRosJointPoints(const descartes_core::RobotModel& model,
                                            const std::vector<descartes_core::TrajectoryPtPtr>& joint_traj,
                                            double default_joint_vel,
-                                           std::vector<trajectory_msgs::JointTrajectoryPoint>& out)
+                                           std::vector<trajectory_msgs::msg::JointTrajectoryPoint>& out)
 {
   if (default_joint_vel <= 0.0)
   {
@@ -66,8 +67,8 @@ bool descartes_utilities::toRosJointPoints(const descartes_core::RobotModel& mod
     return false;
   }
 
-  ros::Duration from_start(0.0);
-  std::vector<trajectory_msgs::JointTrajectoryPoint> ros_trajectory;
+  double from_start = 0.0;
+  std::vector<trajectory_msgs::msg::JointTrajectoryPoint> ros_trajectory;
   ros_trajectory.reserve(joint_traj.size());
 
   std::vector<double> joint_point;
@@ -90,7 +91,7 @@ bool descartes_utilities::toRosJointPoints(const descartes_core::RobotModel& mod
       return false;
     }
 
-    trajectory_msgs::JointTrajectoryPoint ros_pt;
+    trajectory_msgs::msg::JointTrajectoryPoint ros_pt;
     ros_pt.positions = joint_point;
     // Descartes has no internal representation of velocity, acceleration, or effort so we fill these field with zeros.
     ros_pt.velocities.resize(joint_point.size(), 0.0);
@@ -99,7 +100,7 @@ bool descartes_utilities::toRosJointPoints(const descartes_core::RobotModel& mod
 
     if (pt.getTiming().isSpecified())
     {
-      from_start += ros::Duration(pt.getTiming().upper);
+      from_start += pt.getTiming().upper;
     }
     else
     {
@@ -111,10 +112,13 @@ bool descartes_utilities::toRosJointPoints(const descartes_core::RobotModel& mod
       else
         dt = minTime(joint_point, ros_trajectory.back().positions, default_joint_vel);
 
-      from_start += ros::Duration(dt);
+      from_start += dt;
     }
 
-    ros_pt.time_from_start = from_start;
+    builtin_interfaces::msg::Duration dur;
+    dur.sec = static_cast<int32_t>(from_start);
+    dur.nanosec = static_cast<uint32_t>((from_start - dur.sec) * 1e9);
+    ros_pt.time_from_start = dur;
     ros_trajectory.push_back(ros_pt);
   }
 

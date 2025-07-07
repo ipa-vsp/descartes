@@ -23,6 +23,7 @@ ament_target_dependencies(
   descartes_core
   descartes_trajectory
   trajectory_msgs
+  builtin_interfaces
 )
 
 install(TARGETS ${PROJECT_NAME}

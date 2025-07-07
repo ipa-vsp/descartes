@@ -17,5 +17,6 @@
   <depend>descartes_core</depend>
   <depend>descartes_trajectory</depend>
   <depend>trajectory_msgs</depend>
+  <depend>builtin_interfaces</depend>
 
 </package>

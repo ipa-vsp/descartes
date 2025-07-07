@@ -36,13 +36,13 @@ bool doFK(moveit::core::RobotState& state, const moveit::core::JointModelGroup* 
   state.setJointGroupPositions(group, joint_pose);
   if (!state.knowsFrameTransform(tool))
   {
-    ROS_WARN("No transform to this tool frame");
+    CONSOLE_BRIDGE_logWarn("No transform to this tool frame");
     return false;
   }
 
   if (!state.satisfiesBounds())
   {
-    ROS_WARN("Joint angles do not satisfy robot bounds");
+    CONSOLE_BRIDGE_logWarn("Joint angles do not satisfy robot bounds");
     return false;
   }
 
@@ -143,7 +143,7 @@ JointConfigVec findSeedStatesForPair(moveit::core::RobotState& state, const std:
   for (const JointModel* model : active_joints)
   {
     if (model->getType() != JointModel::REVOLUTE)
-      ROS_WARN_STREAM("Joint '" << model->getName() << "' does not appear to be revolute");
+      CONSOLE_BRIDGE_logWarn("Joint '%s' does not appear to be revolute", model->getName().c_str());
   }
 
   // compute random starting values for all joints
@@ -171,14 +171,14 @@ JointConfigVec findSeedStatesForPair(moveit::core::RobotState& state, const std:
     Eigen::Isometry3d target_pose;
     if (!doFK(state, group, tool_frame, round_ik, target_pose))
     {
-      ROS_DEBUG_STREAM("No FK for pose " << i);
+      CONSOLE_BRIDGE_logDebug("No FK for pose %zu", i);
       continue;
     }
 
     // Check to make sure we're not in a singularity
     if (isSingularity(state, group))
     {
-      ROS_DEBUG_STREAM("Pose " << i << " at singularity.");
+      CONSOLE_BRIDGE_logDebug("Pose %zu at singularity.", i);
       continue;
     }
 
@@ -234,7 +234,7 @@ JointConfigVec findSeedStatesForPair(moveit::core::RobotState& state, const std:
       }
     }
 
-    ROS_DEBUG_STREAM("Calculated " << this_round_iks.size() << " unique IK states this round");
+    CONSOLE_BRIDGE_logDebug("Calculated %zu unique IK states this round", this_round_iks.size());
   }  // outer loop end
 
   // Consolidate set into vector for the result
