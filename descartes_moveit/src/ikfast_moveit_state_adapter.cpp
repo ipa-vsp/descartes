@@ -18,8 +18,8 @@
 
 #include "descartes_moveit/ikfast_moveit_state_adapter.h"
 
-#include <eigen_conversions/eigen_msg.h>
-#include <ros/node_handle.h>
+#include <tf2_eigen/tf2_eigen.hpp>
+#include <geometry_msgs/msg/pose.hpp>
 
 const static std::string default_base_frame = "base_link";
 const static std::string default_tool_frame = "tool0";
@@ -74,9 +74,8 @@ bool descartes_moveit::IkFastMoveitStateAdapter::getAllIK(const Eigen::Isometry3
   Eigen::Isometry3d tool_pose = world_to_base_.frame_inv * pose * tool0_to_tip_.frame;
 
   // convert to geometry_msgs ...
-  geometry_msgs::Pose geometry_pose;
-  tf::poseEigenToMsg(tool_pose, geometry_pose);
-  std::vector<geometry_msgs::Pose> poses = { geometry_pose };
+  geometry_msgs::msg::Pose geometry_pose = tf2::toMsg(tool_pose);
+  std::vector<geometry_msgs::msg::Pose> poses = { geometry_pose };
 
   std::vector<double> dummy_seed(getDOF(), 0.0);
   std::vector<std::vector<double>> joint_results;
@@ -116,7 +115,7 @@ bool descartes_moveit::IkFastMoveitStateAdapter::getFK(const std::vector<double>
   const auto& solver = joint_group_->getSolverInstance();
 
   std::vector<std::string> tip_frame = { solver->getTipFrame() };
-  std::vector<geometry_msgs::Pose> output;
+  std::vector<geometry_msgs::msg::Pose> output;
 
   if (!isValid(joint_pose))
     return false;
@@ -124,7 +123,7 @@ bool descartes_moveit::IkFastMoveitStateAdapter::getFK(const std::vector<double>
   if (!solver->getPositionFK(tip_frame, joint_pose, output))
     return false;
 
-  tf::poseMsgToEigen(output[0], pose);  // pose in frame of IkFast base
+  tf2::fromMsg(output[0], pose);  // pose in frame of IkFast base
   pose = world_to_base_.frame * pose * tool0_to_tip_.frame_inv;
   return true;
 }
@@ -137,11 +136,9 @@ void descartes_moveit::IkFastMoveitStateAdapter::setState(const moveit::core::Ro
 
 bool descartes_moveit::IkFastMoveitStateAdapter::computeIKFastTransforms()
 {
-  // look up the IKFast base and tool frame
-  ros::NodeHandle nh;
-  std::string ikfast_base_frame, ikfast_tool_frame;
-  nh.param<std::string>("ikfast_base_frame", ikfast_base_frame, default_base_frame);
-  nh.param<std::string>("ikfast_tool_frame", ikfast_tool_frame, default_tool_frame);
+  // Use default frames; ROS parameters are ignored in ROS2 port
+  std::string ikfast_base_frame = default_base_frame;
+  std::string ikfast_tool_frame = default_tool_frame;
 
   if (!robot_state_->knowsFrameTransform(ikfast_base_frame))
   {
